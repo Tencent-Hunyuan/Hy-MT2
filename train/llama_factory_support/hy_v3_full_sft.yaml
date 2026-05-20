@@ -1,0 +1,50 @@
+### model
+model_name_or_path: ../hf
+trust_remote_code: true
+
+### method
+stage: sft
+do_train: true
+finetuning_type: full
+deepspeed: ds_zero3_offload.json
+
+### dataset
+dataset_dir: .
+dataset: hy_v3_demo
+template: hy_v3
+cutoff_len: 4096  # HYV3 supports 262k context length
+max_samples: 1000
+overwrite_cache: true
+
+### output
+output_dir: saves/hy_v3/full/sft
+logging_steps: 1
+save_steps: 10
+plot_loss: true
+overwrite_output_dir: true
+save_only_model: false
+report_to: none  # choices: [none, wandb, tensorboard, swanlab, mlflow]
+
+### train
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 1
+learning_rate: 1.0e-5
+num_train_epochs: 3.0
+lr_scheduler_type: cosine_with_min_lr
+lr_scheduler_kwargs:
+  min_lr_rate: 0.1  # min_lr / learning_rate = 1e-6 / 1e-5 = 0.1
+warmup_ratio: 0.1
+bf16: true
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: true
+ddp_timeout: 180000000
+flash_attn: fa2
+resume_from_checkpoint: null
+
+### eval
+# eval_dataset: alpaca_en_demo
+# val_size: 0.1
+# per_device_eval_batch_size: 1
+# eval_strategy: steps
+# eval_steps: 500

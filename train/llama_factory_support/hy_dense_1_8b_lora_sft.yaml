@@ -1,0 +1,56 @@
+### model
+model_name_or_path: path_to_dense_1_8b_model
+trust_remote_code: true
+
+### method
+stage: sft
+do_train: true
+finetuning_type: lora
+deepspeed: ds_zero2_offload_lora.json
+
+### LoRA parameters
+lora_rank: 64
+lora_alpha: 128
+lora_dropout: 0.05
+lora_target: q_proj,k_proj,v_proj,o_proj
+
+### dataset
+dataset_dir: .
+dataset: hy_dense_demo
+template: hy_dense_1_8b
+cutoff_len: 4096
+max_samples: 1000
+overwrite_cache: true
+
+### output
+output_dir: saves/hy_dense_1_8b/lora/sft
+logging_steps: 1
+save_steps: 10
+plot_loss: true
+overwrite_output_dir: true
+save_only_model: false
+report_to: none  # choices: [none, wandb, tensorboard, swanlab, mlflow]
+
+### train
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 1
+learning_rate: 2.0e-4
+num_train_epochs: 1.0
+lr_scheduler_type: cosine_with_min_lr
+lr_scheduler_kwargs:
+  min_lr_rate: 0.1  # min_lr / learning_rate = 2e-5 / 2e-4 = 0.1
+warmup_ratio: 0.1
+bf16: true
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: true
+ddp_timeout: 180000000
+flash_attn: fa2
+resume_from_checkpoint: null
+
+### eval
+# eval_dataset: alpaca_en_demo
+# val_size: 0.1
+# per_device_eval_batch_size: 1
+# eval_strategy: steps
+# eval_steps: 500
