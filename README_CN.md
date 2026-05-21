@@ -17,7 +17,7 @@
 </div>
 
 <p align="center">
-    🖥️&nbsp;<a href="https://aistudio.tencent.com/"><b>官方网站</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    🖥️&nbsp;<a href="https://aistudio.tencent.com/llm/zh?tabIndex=0"><b>官方网站</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
     💬&nbsp;<a href="https://github.com/Tencent-Hunyuan/Hy-MT2"><b>GitHub</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
     🪡&nbsp;<a href="https://github.com/Tencent/AngelSlim/tree/main"><b>AngelSlim</b></a></p>
 
@@ -25,15 +25,7 @@
 ## 模型介绍
 
 
-**Hy-MT2**是涵盖Dense和MoE架构的多语言机器翻译模型系列，包含 **Hy-MT2-1.8B、7B 和 30B-A3B** 三款快思考模型，支持33种语言互译和5种民汉/方言，支持多语言指令遵循。该系列提供基于AngelSlim的**1.25-bit极致量化版**，其中1.8B模型仅需440MB存储，在苹果A15芯片上比传统4-bit推理快1.5倍。
-
-评测结果表明，Hy-MT2 在多场景下表现出众：
-
-* **通用翻译（FLORES-200）**：三款模型平均性能分别达到 **Gemini 3.1 Pro (Think)** 的 89.9%、97.9% 和 98.6%。其中 7B 和 A3B 性能超越 **DeepSeek-V4-Pro**，1.8B 综合表现超越微软翻译等商业 API。
-* **真实场景与专业领域（WildMTBench/DomainMTBench）**：三款模型 GEMBA 评分达 Gemini 3.1 Pro (Think) 的 96%~99% 以上，且均优于更大规模的开源模型。
-* **翻译指令遵循（IFMTBench）**：大幅超越同规模开源模型，A3B 性能逼近 Gemini 3.1 Pro (Think)。
-
-总之，Hy-MT2 是一个面向真实复杂场景、高效且强大的翻译模型系列。
+Hy-MT2 是一款面向真实复杂场景的“快思考”多语言翻译模型家族，涵盖 1.8B、7B 和 30B-A3B（MoE）三种体量，支持 33 种语言互译并具备强大的多语言指令遵循能力。在端侧部署上，得益于 AngelSlim 1.25-bit 极端量化，其 1.8B 模型仅需 440MB 存储空间，推理速度显著提升 1.5 倍。多维度评测表明，Hy-MT2 在通用、真实业务、专业领域及指令遵循等翻译任务中表现卓越：7B 和 30B-A3B 模型性能不仅超越了 DeepSeek-V4-Pro、Kimi K2.6 等开源模型在快思考模式下的表现，轻量级 1.8B 模型亦在整体上超越了微软和豆包等主流商业 API。
 
 同时，本次我们也开源了一个针对翻译指令遵循能力的评测集[IFMTBench](./IFMTBench/README_zh.md)。
 
@@ -51,7 +43,7 @@
 <img src="imgs/main_result.png" width = "100%" />
 </div>
 
-更多的实验效果和分析可以参考我们的[技术报告](./HY_MT2_0_Technical_Report.pdf)。
+更多的实验效果和分析可以参考我们的[报告](./HY_MT2_0_Report.pdf)。
 
 &nbsp;
 
@@ -61,6 +53,8 @@
 | Hy-MT2-1.8B  | 混元1.8B翻译模型 |🤗 [Model](https://huggingface.co/tencent/Hy-MT2-1.8B)|
 | Hy-MT2-1.8B-FP8 | 混元1.8B翻译模型，fp8量化    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-1.8B-FP8)|
 | Hy-MT2-1.8B-GGUF | 混元1.8B翻译模型， llama.cpp    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-1.8B-GGUF)|
+| Hy-MT2-1.8B-2bit-GGUF | 混元1.8B翻译模型， llama.cpp, 2bit    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-1.8B-2bit-GGUF)|
+| Hy-MT2-1.8B-1.25bit-GGUF | 混元1.8B翻译模型， llama.cpp, 1.25bit    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-1.8B-1.25bit-GGUF)|
 | Hy-MT2-7B | 混元7B翻译模型    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-7B)|
 | Hy-MT2-7B-FP8 | 混元7B翻译模型，fp8量化     | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-7B-FP8)|
 | Hy-MT2-7B-GGUF | 混元7B翻译模型， llama.cpp    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-7B-GGUF)|

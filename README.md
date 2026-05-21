@@ -17,30 +17,24 @@
 </div>
 
 <p align="center">
-    🖥️&nbsp;<a href="https://aistudio.tencent.com/"><b>Official Website</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    🖥️&nbsp;<a href="https://aistudio.tencent.com/llm/en?tabIndex=0"><b>Official Website</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
     💬&nbsp;<a href="https://github.com/Tencent-Hunyuan/Hy-MT2"><b>GitHub</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
     🪡&nbsp;<a href="https://github.com/Tencent/AngelSlim/tree/main"><b>AngelSlim</b></a></p>
 
 ## Model Introduction
 
 
-**Hy-MT2** is a multilingual machine translation model series covering both Dense and MoE architectures. It includes three fast-thinking models: **Hy-MT2-1.8B, 7B, and 30B-A3B**. The series supports translation among 33 languages and 5 ethnic minority languages / Chinese dialects, as well as multilingual instruction following. The series also provides **1.25-bit extreme quantized versions** based on AngelSlim. Among them, the 1.8B model requires only 440 MB of storage and runs 1.5x faster than traditional 4-bit inference on the Apple A15 chip.
-
-Evaluation results show that Hy-MT2 performs strongly across multiple scenarios:
-
-* **General Translation (FLORES-200)**: The average performance of the three models reaches 89.9%, 97.9%, and 98.6% of **Gemini 3.1 Pro (Think)**, respectively. Among them, the 7B and A3B models outperform **DeepSeek-V4-Pro**, while the 1.8B model achieves better overall performance than commercial APIs such as Microsoft Translator.
-* **Real-World Scenarios and Professional Domains (WildMTBench/DomainMTBench)**: The GEMBA scores of the three models reach more than 96%–99% of Gemini 3.1 Pro (Think), and all of them outperform larger open-source models.
-* **Translation Instruction Following (IFMTBench)**: The models significantly outperform open-source models of the same scale, while the A3B model approaches the performance of Gemini 3.1 Pro (Think).
-
-In summary, Hy-MT2 is an efficient and powerful translation model series designed for complex real-world scenarios.
+Hy-MT2 is a family of “fast-thinking” multilingual translation models designed for complex real-world scenarios. It includes three model sizes: 1.8B, 7B, and 30B-A3B (MoE), all of which support translation among 33 languages and effectively follow translation instructions in multiple languages.
+For on-device deployment, AngelSlim 1.25-bit extreme quantization reduces the storage requirement of the 1.8B model to only 440 MB and improves inference speed by 1.5x.
+Multi-dimensional evaluations show that Hy-MT2 delivers outstanding performance across general, real-world business, domain-specific, and instruction-following translation tasks. The 7B and 30B-A3B models outperform open-source models such as DeepSeek-V4-Pro and Kimi K2.6 in fast-thinking mode, while the lightweight 1.8B model also surpasses mainstream commercial APIs from providers such as Microsoft and Doubao overall.
 
 In this release, we also open-source [IFMTBench](./IFMTBench/README.md), a benchmark for evaluating translation instruction-following capabilities.
 
 We also welcome everyone to use our released Hy-MT2-Translator Skill, which makes it easy to integrate Hy-MT2 series models for translation tasks. Download links: [ClawHub](https://clawhub.ai/tencent-adm/hy-mt2-translator-skill) and [SkillHub](https://skillhub.cn/skills/hy-mt2-translator).
 
 ## News
-<br>
-* 2026.5.21  We open-sourced **Hy-MT2-1.8B**/**Hy-MT2-7B**/**Hy-MT2-30B-A3B** on HuggingFace and ModelScope.
+
+* 2026.5.21  We open-sourced **Hy-MT2-1.8B**/**Hy-MT2-7B**/**Hy-MT2-30B-A3B**/**IFMTBench** on HuggingFace and ModelScope.
 * 2025.12.30 We open-sourced **HY-MT1.5-1.8B** and **HY-MT1.5-7B** on HuggingFace and ModelScope.
 * 2025.9.1 We open-sourced **Hunyuan-MT-7B** and **Hunyuan-MT-Chimera-7B** on HuggingFace and ModelScope.
 
@@ -50,21 +44,23 @@ We also welcome everyone to use our released Hy-MT2-Translator Skill, which make
 <img src="imgs/main_result.png" width = "100%" />
 </div>
 
-For more experimental results and analysis, please refer to our [technical report](./HY_MT2_0_Technical_Report.pdf).
+For more experimental results and analysis, please refer to our [report](./HY_MT2_0_Report.pdf).
 
 &nbsp;
 
 ## Model Links
 | Model Name  | Description | Download Link |
 | ----------- | ----------- |-----------
-| Hy-MT2-1.8B  | Hunyuan 1.8B translation model |🤗 [Model](https://huggingface.co/tencent/Hy-MT2-1.8B)|
-| Hy-MT2-1.8B-FP8 | Hunyuan 1.8B translation model, FP8 quantization    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-1.8B-FP8)|
-| Hy-MT2-1.8B-GGUF | Hunyuan 1.8B translation model, llama.cpp    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-1.8B-GGUF)|
-| Hy-MT2-7B | Hunyuan 7B translation model    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-7B)|
-| Hy-MT2-7B-FP8 | Hunyuan 7B translation model, FP8 quantization     | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-7B-FP8)|
-| Hy-MT2-7B-GGUF | Hunyuan 7B translation model, llama.cpp    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-7B-GGUF)|
-| Hy-MT2-30B-A3B | Hunyuan 30B-A3B translation model    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-30B-A3B)|
-| Hy-MT2-30B-A3B-FP8 | Hunyuan 30B-A3B translation model, FP8 quantization     | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-30B-A3B-FP8)|
+| Hy-MT2-1.8B  | Hy 1.8B translation model |🤗 [Model](https://huggingface.co/tencent/Hy-MT2-1.8B)|
+| Hy-MT2-1.8B-FP8 | Hy 1.8B translation model, FP8 quantization    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-1.8B-FP8)|
+| Hy-MT2-1.8B-GGUF | Hy 1.8B translation model, llama.cpp    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-1.8B-GGUF)|
+| Hy-MT2-1.8B-2bit-GGUF | Hy 1.8B translation model, llama.cpp, 2bit    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-1.8B-2bit-GGUF)|
+| Hy-MT2-1.8B-1.25bit-GGUF | Hy 1.8B translation model, llama.cpp, 1.25bit    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-1.8B-1.25bit-GGUF)|
+| Hy-MT2-7B | Hy 7B translation model    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-7B)|
+| Hy-MT2-7B-FP8 | Hy 7B translation model, FP8 quantization     | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-7B-FP8)|
+| Hy-MT2-7B-GGUF | Hy 7B translation model, llama.cpp    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-7B-GGUF)|
+| Hy-MT2-30B-A3B | Hy 30B-A3B translation model    | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-30B-A3B)|
+| Hy-MT2-30B-A3B-FP8 | Hy 30B-A3B translation model, FP8 quantization     | 🤗 [Model](https://huggingface.co/tencent/Hy-MT2-30B-A3B-FP8)|
 
 
 
