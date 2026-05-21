@@ -32,6 +32,8 @@ In this release, we also open-source [IFMTBench](./IFMTBench/README.md), a bench
 
 We also welcome everyone to use our released Hy-MT2-Translator Skill, which makes it easy to integrate Hy-MT2 series models for translation tasks. Download links: [ClawHub](https://clawhub.ai/tencent-adm/hy-mt2-translator-skill) and [SkillHub](https://skillhub.cn/skills/hy-mt2-translator).
 
+Now, Tencent Hy is officially partnering with WMT26 for the "Video Subtitle Translation Task" (https://www2.statmt.org/wmt26/video-subtitle-translation.html). Participants who use the Hy-MT model series to compete in the "General Machine Translation Task" (https://www2.statmt.org/wmt26/translation-task.html) and the "Video Subtitle Translation Task" will have the chance to win special awards sponsored by Hunyuan. We sincerely invite everyone to participate and jointly push the boundaries of machine translation technology!
+
 ## News
 
 * 2026.5.21  We open-sourced **Hy-MT2-1.8B**/**Hy-MT2-7B**/**Hy-MT2-30B-A3B**/**IFMTBench** on HuggingFace and ModelScope.
