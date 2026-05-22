@@ -19,7 +19,8 @@
 <p align="center">
     🖥️&nbsp;<a href="https://aistudio.tencent.com/llm/en?tabIndex=0"><b>Official Website</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
     💬&nbsp;<a href="https://github.com/Tencent-Hunyuan/Hy-MT2"><b>GitHub</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
-    🪡&nbsp;<a href="https://github.com/Tencent/AngelSlim/tree/main"><b>AngelSlim</b></a></p>
+    🪡&nbsp;<a href="https://github.com/Tencent/AngelSlim/tree/main"><b>AngelSlim</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    📚&nbsp;<a href="https://arxiv.org/pdf/2605.22064"><b>Hy-MT2 Report</b></a></p>
 
 ## Model Introduction
 
@@ -46,7 +47,7 @@ Now, Tencent Hy is officially partnering with WMT26 for the "Video Subtitle Tran
 <img src="imgs/main_result.png" width = "100%" />
 </div>
 
-For more experimental results and analysis, please refer to our [report](./HY_MT2_0_Report.pdf).
+For more experimental results and analysis, please refer to our [report](https://arxiv.org/pdf/2605.22064).
 
 &nbsp;
 
@@ -83,6 +84,34 @@ For more experimental results and analysis, please refer to our [report](./HY_MT
 ---
 
 ## Inference and Deployment
+
+For 1.8B and 7B, we recommend using the following parameters for inference. Note that our models do not have a default system_prompt.
+
+```json
+
+{
+  "temperature": 0.7,
+  "top_p": 0.6,
+  "top_k": 20,
+  "repetition_penalty": 1.05,
+  "max_tokens": 4096
+}
+```
+
+For 30B-A3B, we recommend using the following parameters for inference. Note that our models do not have a default system_prompt.
+
+```json
+
+{
+  "temperature": 0.7,
+  "top_p": 1.0,
+  "top_k": -1,
+  "repetition_penalty": 1.0,
+  "max_tokens": 4096
+}
+```
+
+
 ### transformers
 
 transformers>=5.6.0
@@ -194,32 +223,6 @@ cmake --build build --config Release
 ```
 
 
-For 1.8B and 7B, we recommend using the following parameters for inference. Note that our models do not have a default system_prompt.
-
-```json
-
-{
-  "temperature": 0.7,
-  "top_p": 0.6,
-  "top_k": 20,
-  "repetition_penalty": 1.05,
-  "max_tokens": 4096
-}
-```
-
-For 30B-A3B, we recommend using the following parameters for inference. Note that our models do not have a default system_prompt.
-
-```json
-
-{
-  "temperature": 0.7,
-  "top_p": 1.0,
-  "top_k": -1,
-  "repetition_penalty": 1.0,
-  "max_tokens": 4096
-}
-```
-
 ## Model Training
 Hy-MT2 provides a complete model training pipeline, supporting both full-parameter fine-tuning and LoRA fine-tuning, as well as multiple DeepSpeed ZeRO configurations and LLaMA-Factory integration.
 
@@ -277,15 +280,15 @@ We provide [AngelSlim](https://github.com/tencent/AngelSlim), an easy-to-use, co
 ## Citing Hy-MT2
 
 ```bibtex
-@misc{hy-mt1.5,
-      title={HY-MT1.5 Technical Report}, 
-      author={Mao Zheng and Zheng Li and Tao Chen and Mingyang Song and Di Wang},
-      year={2025},
-      eprint={2512.24092},
+@misc{zheng2026hymt2familyfastefficient,
+      title={Hy-MT2: A Family of Fast, Efficient and Powerful Multilingual Translation Models in the Wild}, 
+      author={Mao Zheng and Zheng Li and Tao Chen and Bo Lv and Mingrui Sun and Mingyang Song and Jinlong Song and Hong Huang and Decheng Wu and Hai Wang and Yifan Song and Yanfeng Chen and Guanwei Zhang},
+      year={2026},
+      eprint={2605.22064},
       archivePrefix={arXiv},
       primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2512.24092}, 
-}
+      url={https://arxiv.org/abs/2605.22064}, 
+} 
 ```
 
 ## Contact Us
