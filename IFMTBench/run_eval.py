@@ -56,21 +56,27 @@ def load_jsonl(path: str) -> list:
 
 def load_responses(path: str) -> dict:
     """
-    Load model output file, returning a {md5: response} mapping.
+    Load model output file, returning a {(md5, instruction_lang): response} mapping.
+    Also builds a fallback {md5: response} mapping for entries without instruction_lang.
 
     Model output file format: one JSON object per line, must contain:
       - md5: unique identifier matching the md5 field in test data
       - response: the model's generated translation
+      - instruction_lang (optional): the instruction language used for this response
     """
     responses = {}
+    fallback = {}
     data = load_jsonl(path)
     for item in data:
         md5 = item.get("md5", "")
         response = item.get("response", "")
+        lang = item.get("instruction_lang", "")
         if md5:
-            responses[md5] = response
-    log.info(f"Loaded {len(responses)} model responses")
-    return responses
+            if lang:
+                responses[(md5, lang)] = response
+            fallback[md5] = response
+    log.info(f"Loaded {len(responses)} lang-specific responses, {len(fallback)} unique md5 entries")
+    return {"by_lang": responses, "fallback": fallback}
 
 
 def main():
@@ -108,16 +114,30 @@ def main():
     log.info(f"Total: {len(test_data)} test items")
 
     # Load model responses
-    responses = load_responses(args.input_response)
+    response_data = load_responses(args.input_response)
+    by_lang = response_data["by_lang"]
+    fallback = response_data["fallback"]
 
-    # Check coverage
-    test_md5s = {item.get("md5", "") for item in test_data if item.get("md5")}
-    response_md5s = set(responses.keys())
-    coverage = len(test_md5s & response_md5s) / len(test_md5s) if test_md5s else 0
-    log.info(f"Response coverage: {coverage:.1%} ({len(test_md5s & response_md5s)}/{len(test_md5s)})")
+    # Build a flat {(md5, lang): response} lookup for batch_score
+    # For each test item, try (md5, instruction_lang) first, then fallback to md5-only
+    responses_flat = {}
+    matched = 0
+    for item in test_data:
+        md5 = item.get("md5", "")
+        lang = item.get("instruction_lang", "")
+        key = (md5, lang)
+        if key in by_lang:
+            responses_flat[key] = by_lang[key]
+            matched += 1
+        elif md5 in fallback:
+            responses_flat[key] = fallback[md5]
+            matched += 1
+
+    coverage = matched / len(test_data) if test_data else 0
+    log.info(f"Response coverage: {coverage:.1%} ({matched}/{len(test_data)})")
 
     if coverage < 0.5:
-        log.warning("Response coverage is below 50%, please check if md5 fields match")
+        log.warning("Response coverage is below 50%, please check if md5/instruction_lang fields match")
 
     # If skipping LLM, temporarily modify config
     if args.skip_llm:
@@ -127,7 +147,7 @@ def main():
         config.CLASS_LLM_JUDGE = set()
 
     # Run scoring
-    results = batch_score(test_data, responses, workers=args.workers)
+    results = batch_score(test_data, responses_flat, workers=args.workers)
 
     # Output results
     os.makedirs(args.output_dir, exist_ok=True)
