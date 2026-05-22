@@ -167,6 +167,7 @@ def score_one_item(item: dict, model_response: str) -> dict:
 
     entry = {
         "md5": item.get("md5", ""),
+        "instruction_lang": item.get("instruction_lang", ""),
         "class": cls_list,
         "is_multi_constraint": is_multi,
     }
@@ -197,7 +198,7 @@ def batch_score(test_data: list, responses: dict, workers: int = None) -> list:
 
     Args:
         test_data: List of test data items
-        responses: {md5: response_text} mapping
+        responses: {(md5, instruction_lang): response_text} mapping
         workers: Number of concurrent threads
 
     Returns:
@@ -214,9 +215,11 @@ def batch_score(test_data: list, responses: dict, workers: int = None) -> list:
     def _worker(idx):
         item = test_data[idx]
         md5 = item.get("md5", "")
-        response = responses.get(md5, "")
+        lang = item.get("instruction_lang", "")
+        response = responses.get((md5, lang), "")
         if not response:
             return idx, {"md5": md5, "class": get_class_list(item),
+                        "instruction_lang": lang,
                         "final_score": None, "error": "Model output not found"}
         return idx, score_one_item(item, response)
 
