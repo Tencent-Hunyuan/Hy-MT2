@@ -8,39 +8,40 @@ Usage:
        import hy_v3_template
 """
 
-from llamafactory.data.template import ReasoningTemplate, register_template
+from llamafactory.data.template import register_template
 from llamafactory.data.formatter import EmptyFormatter, StringFormatter
 
 
 # ---------------------------------------------------------------------------
-# HYV3 (MoE, pure text) chat template
+# HYV3 (MoE, pure text) chat template - no_think mode
 #
-# Token format (from chat_template.jinja & tokenizer_config.json):
-#   BOS:        <｜hy_begin▁of▁sentence｜>
-#   System:    {system_content}                (directly after BOS, no role tag)
-#   User:       <｜hy_User｜>{user_content}
-#   Assistant:  <｜hy_Assistant｜>{assistant_content}<｜hy_eos｜>
-#   EOS:       <｜hy_eos｜>
+# Token format (from chat_template.jinja, is_training=true, no_think mode):
+#   BOS:            <｜hy_begin▁of▁sentence｜>
+#   ReasoningMode:  <｜reasoning_mode｜>reasoning_effort:no_think
+#   System:         {system_content}  (between BOS+reasoning_mode and User)
+#   User:           <｜hy_User｜>{user_content}
+#   Assistant:      <｜hy_Assistant｜><think></think>{assistant_content}<eos:6124c78e>
 #
-# Loss mask: only compute loss on assistant content (including <｜hy_eos｜>).
+# Full format (no system message):
+#   <｜hy_begin▁of▁sentence｜><｜reasoning_mode｜>reasoning_effort:no_think<｜hy_User｜>{user}<｜hy_Assistant｜><think></think>{assistant}<eos:6124c78e>
 #
-# Note: The system message has NO explicit role token -- it is placed right
-# after BOS.  The eos_token is <｜hy_eos｜>.
+# Full format (with system message):
+#   <｜hy_begin▁of▁sentence｜>{system}<｜reasoning_mode｜>reasoning_effort:no_think<｜hy_User｜>{user}<｜hy_Assistant｜><think></think>{assistant}<eos:6124c78e>
 #
-# Reasoning: Supports think tags via ReasoningTemplate.
-#   - thought_words: ("<think>", "</think>") matching jinja template
-#   - enable_thinking: set globally via data_args.enable_thinking (default True)
-#   - Training data always includes think tags (empty or with content)
+# Loss mask: only compute loss on assistant content (including eos).
+#
+# Note: We do NOT use ReasoningTemplate because it places <think></think>
+# in the wrong position (before <｜hy_Assistant｜> instead of after).
+# Instead, we hardcode <think></think> in format_assistant to match the
+# exact format defined in chat_template.jinja for is_training=true mode.
 # ---------------------------------------------------------------------------
 
 register_template(
     name="hy_v3",
-    template_class=ReasoningTemplate,
     format_user=StringFormatter(slots=["<｜hy_User｜>{{content}}"]),
-    format_assistant=StringFormatter(slots=["<｜hy_Assistant｜>{{content}}", {"eos_token"}]),
+    format_assistant=StringFormatter(slots=["<｜hy_Assistant｜><think></think>{{content}}", {"eos_token"}]),
     format_system=StringFormatter(slots=["{{content}}"]),
-    format_prefix=EmptyFormatter(slots=[{"bos_token"}]),
-    thought_words=("<think>", "</think>"),
+    format_prefix=EmptyFormatter(slots=[{"bos_token"}, "<｜reasoning_mode｜>reasoning_effort:no_think"]),
     stop_words=["<｜hy_eos｜>"],
     efficient_eos=True,
 )
