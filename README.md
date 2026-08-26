@@ -85,6 +85,8 @@ For more experimental results and analysis, please refer to our [report](https:/
 
 ## Inference and Deployment
 
+max_context: 8192
+
 For 1.8B and 7B, we recommend using the following parameters for inference. Note that our models do not have a default system_prompt.
 
 ```json
